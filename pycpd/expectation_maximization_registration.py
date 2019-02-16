@@ -1,14 +1,8 @@
 import numpy as np
 
 def initialize_sigma2(X, Y):
-    (N, D) = X.shape
-    (M, _) = Y.shape
-    XX = np.reshape(X, (1, N, D))
-    YY = np.reshape(Y, (M, 1, D))
-    XX = np.tile(XX, (M, 1, 1))
-    YY = np.tile(YY, (1, N, 1))
-    diff = XX - YY
-    err  = np.multiply(diff, diff)
+    diff = X[None,:,:] - Y[:,None,:]
+    err  = diff**2
     return np.sum(err) / (D * M * N)
 
 class expectation_maximization_registration(object):
@@ -57,24 +51,27 @@ class expectation_maximization_registration(object):
         self.iteration += 1
 
     def expectation(self):
-        P = np.zeros((self.M, self.N))
+        # P = np.zeros((self.M, self.N))
 
-        for i in range(0, self.M):
-            diff     = self.X - np.tile(self.TY[i, :], (self.N, 1))
-            diff     = np.multiply(diff, diff)
-            P[i, :]  = P[i, :] + np.sum(diff, axis=1)
+        # for i in range(0, self.M):
+        #     diff     = self.X - np.tile(self.TY[i, :], (self.N, 1))
+        #     diff     = np.multiply(diff, diff)
+        #     P[i, :]  = P[i, :] + np.sum(diff, axis=1)
+
+        P = np.sum((X[None,:,:] -Y[:,None,:])**2, axis=2)
 
         c = (2 * np.pi * self.sigma2) ** (self.D / 2)
         c = c * self.w / (1 - self.w)
         c = c * self.M / self.N
 
         P = np.exp(-P / (2 * self.sigma2))
+
         den = np.sum(P, axis=0)
-        den = np.tile(den, (self.M, 1))
+        # den = np.tile(den, (self.M, 1))
         den[den==0] = np.finfo(float).eps
         den += c
 
-        self.P   = np.divide(P, den)
+        self.P   = np.divide(P, den[None,:,:])
         self.Pt1 = np.sum(self.P, axis=0)
         self.P1  = np.sum(self.P, axis=1)
         self.Np  = np.sum(self.P1)
