@@ -3,13 +3,8 @@ import numpy as np
 from .expectation_maximization_registration import expectation_maximization_registration
 
 def gaussian_kernel(Y, beta):
-    (M, D) = Y.shape
-    XX = np.reshape(Y, (1, M, D))
-    YY = np.reshape(Y, (M, 1, D))
-    XX = np.tile(XX, (M, 1, 1))
-    YY = np.tile(YY, (1, M, 1))
-    diff = XX-YY
-    diff = np.multiply(diff, diff)
+    diff = Y[None,:,:] - Y[:,None,:]
+    diff = diff**2
     diff = np.sum(diff, 2)
     return np.exp(-diff / (2 * beta**2))
 
