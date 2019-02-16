@@ -46,7 +46,7 @@ class expectation_maximization_registration(object):
                 kwargs = {'iteration': self.iteration, 'error': self.err, 'X': self.X, 'Y': self.TY}
                 callback(**kwargs)
 
-        return self.TY, self.get_registration_parameters(), self.P
+        return self.TY, self.get_registration_parameters()
 
     def get_registration_parameters(self):
         raise NotImplementedError("Registration parameters should be defined in child classes.")
