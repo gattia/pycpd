@@ -1,14 +1,8 @@
 import numpy as np
 
 def initialize_sigma2(X, Y):
-    (N, D) = X.shape
-    (M, _) = Y.shape
-    XX = np.reshape(X, (1, N, D))
-    YY = np.reshape(Y, (M, 1, D))
-    XX = np.tile(XX, (M, 1, 1))
-    YY = np.tile(YY, (1, N, 1))
-    diff = XX - YY
-    err  = np.multiply(diff, diff)
+    diff = X[None,:,:] - YY[:,None,:]
+    err  = np.square(diff)
     return np.sum(err) / (D * M * N)
 
 class expectation_maximization_registration(object):
