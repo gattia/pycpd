@@ -58,7 +58,7 @@ class expectation_maximization_registration(object):
         #     diff     = np.multiply(diff, diff)
         #     P[i, :]  = P[i, :] + np.sum(diff, axis=1)
 
-        P = np.sum((X[None,:,:] -Y[:,None,:])**2, axis=2)
+        P = np.sum((self.X[None,:,:] -self.Y[:,None,:])**2, axis=2)
 
         c = (2 * np.pi * self.sigma2) ** (self.D / 2)
         c = c * self.w / (1 - self.w)
