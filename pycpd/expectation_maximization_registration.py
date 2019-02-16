@@ -1,8 +1,8 @@
 import numpy as np
 
 def initialize_sigma2(X, Y):
-    diff = X[None,:,:] - YY[:,None,:]
-    err  = np.square(diff)
+    diff = X[None,:,:] - Y[:,None,:]
+    err  = diff**2
     return np.sum(err) / (D * M * N)
 
 class expectation_maximization_registration(object):
