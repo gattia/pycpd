@@ -51,14 +51,8 @@ class expectation_maximization_registration(object):
         self.iteration += 1
 
     def expectation(self):
-        # P = np.zeros((self.M, self.N))
 
-        # for i in range(0, self.M):
-        #     diff     = self.X - np.tile(self.TY[i, :], (self.N, 1))
-        #     diff     = np.multiply(diff, diff)
-        #     P[i, :]  = P[i, :] + np.sum(diff, axis=1)
-
-        P = np.sum((self.X[None,:,:] -self.Y[:,None,:])**2, axis=2)
+        P = np.sum((self.X[None,:,:] -self.TY[:,None,:])**2, axis=2)
 
         c = (2 * np.pi * self.sigma2) ** (self.D / 2)
         c = c * self.w / (1 - self.w)
@@ -71,7 +65,7 @@ class expectation_maximization_registration(object):
         den[den==0] = np.finfo(float).eps
         den += c
 
-        self.P   = np.divide(P, den[None,:,:])
+        self.P   = np.divide(P, den[None,:])
         self.Pt1 = np.sum(self.P, axis=0)
         self.P1  = np.sum(self.P, axis=1)
         self.Np  = np.sum(self.P1)
