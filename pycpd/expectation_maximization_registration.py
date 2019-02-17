@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 def initialize_sigma2(X, Y):
     diff = X[None,:,:] - Y[:,None,:]
@@ -46,8 +47,14 @@ class expectation_maximization_registration(object):
         raise NotImplementedError("Registration parameters should be defined in child classes.")
 
     def iterate(self):
+        tic=time.time()
         self.expectation()
+        toc=time.time()
+        print('Expectation takes: {}s'.format(toc-tic))
+        tic=time.time()
         self.maximization()
+        toc=time.time()
+        print('Maximization takes: {}s'.format(toc-tic))
         self.iteration += 1
 
     def expectation(self):
