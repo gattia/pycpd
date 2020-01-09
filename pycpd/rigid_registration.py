@@ -34,6 +34,7 @@ class rigid_registration(expectation_maximization_registration):
         self.t = np.transpose(muX) - self.s * np.dot(np.transpose(self.R), np.transpose(muY))
 
     def transform_point_cloud(self, Y=None):
+
         if Y is None:
             self.TY = self.s * np.dot(self.Y, self.R) + self.t
             return

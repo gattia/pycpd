@@ -59,7 +59,7 @@ class expectation_maximization_registration(object):
 
     def expectation(self):
 
-        P = np.sum((self.X[None,:,:] -self.TY[:,None,:])**2, axis=2)
+        P = np.sum((self.X[None,:,:] - self.TY[:,None,:])**2, axis=2)
 
         c = (2 * np.pi * self.sigma2) ** (self.D / 2)
         c = c * self.w / (1 - self.w)
