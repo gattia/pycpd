@@ -3,7 +3,7 @@ import time
 
 def initialize_sigma2(X, Y):
     diff = X[None,:,:] - Y[:,None,:]
-    err  = diff**2
+    err = diff**2
     return np.sum(err) / (X.shape[0] * Y.shape[0] * X.shape[1])
 
 class expectation_maximization_registration(object):
